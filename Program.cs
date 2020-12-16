@@ -151,7 +151,12 @@ namespace oop_15
 
             /// 
 
+            Timer timer = new Timer((o) => Console.WriteLine(DateTime.Now), null, 0, 1000);
+            Thread.Sleep(10000);
+            timer.Dispose();
+            Console.WriteLine();
 
+            /// 
 
             Console.ReadKey();
         }
