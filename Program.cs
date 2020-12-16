@@ -7,9 +7,51 @@ namespace oop_15
 {
     class Program
     {
+        static void Even()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                Console.WriteLine(i * 2);
+                Thread.Sleep(10);  
+            }
+        }
+
+        static void Odd()
+        {
+            for (int i = 1; i < 10; i++)
+            {
+                Console.WriteLine(i * 2 - 1);
+            }
+        }
+
+
+        static AutoResetEvent AutoReset1 = new AutoResetEvent(true), AutoReset2 = new AutoResetEvent(true);
+        public static void EvenAutoReset()
+        {
+            for (int i = 0; i < 10; i++)
+            {
+                AutoReset2.WaitOne();
+                Console.WriteLine(i * 2);
+                Thread.Sleep(10);
+                AutoReset1.Set();
+            }
+
+        }
+        public static void OddAutoReset()
+        {
+            for (int i = 1; i <= 10; i++)
+            {
+                AutoReset1.WaitOne();
+                Console.WriteLine(i * 2 - 1);
+                Thread.Sleep(100);
+                AutoReset2.Set();
+            }
+        }
+
+
         static void Main(string[] args)
         {
-            foreach (Process process in Process.GetProcesses())
+            /*foreach (Process process in Process.GetProcesses())
             {
 
                 try
@@ -34,7 +76,7 @@ namespace oop_15
                 }
                 
             }
-
+*/
             ///
 
             AppDomain domain = AppDomain.CurrentDomain;
@@ -78,7 +120,37 @@ namespace oop_15
 
             /// 
 
-            
+            // вперемешку
+            /*Thread even = new Thread(Even);
+            Thread odd = new Thread(Odd);
+            even.Start();
+            odd.Start();
+            Console.WriteLine();
+            Console.WriteLine();*/
+
+            /*   Thread even1 = new Thread(Even);
+               Thread odd1 = new Thread(Odd);
+               even1.Priority = ThreadPriority.Highest;
+               odd1.Priority = ThreadPriority.Lowest;
+               even1.Start();
+               odd1.Start();
+
+               Thread.Sleep(2200);
+               Console.WriteLine();
+
+               Thread OddThread2 = new Thread(Odd);
+               Thread EvenThread2 = new Thread(Even);
+               OddThread2.Start();
+               OddThread2.Join();
+               EvenThread2.Start();*/
+
+            Thread evenAutoRThread = new Thread(EvenAutoReset);
+            Thread oddAutoRThread = new Thread(OddAutoReset);
+            oddAutoRThread.Start();
+            evenAutoRThread.Start();
+
+            /// 
+
 
 
             Console.ReadKey();
