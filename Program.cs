@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace oop_15
 {
@@ -30,9 +31,22 @@ namespace oop_15
                 {
                     Console.WriteLine();
                 }
-
                 
             }
+
+            ///
+
+            AppDomain domain = AppDomain.CurrentDomain;
+            Console.WriteLine($"Name: {domain.FriendlyName}");
+            Console.WriteLine($"ID: {domain.Id}");
+            Console.WriteLine($"Application Name: {domain.SetupInformation.ApplicationName}");
+            Console.WriteLine($"Application Base: {domain.SetupInformation.ApplicationBase}");
+            Console.WriteLine($"Configuration File: {domain.SetupInformation.ConfigurationFile}");
+            foreach (Assembly assembly in domain.GetAssemblies())
+                Console.WriteLine(assembly.GetName().Name);
+            Console.WriteLine();
+
+            ///
 
 
 
