@@ -49,6 +49,22 @@ namespace oop_15
         }
 
 
+        //
+
+        public static int warehouse = 30;
+        static object locker = new object();
+        public static void loader()
+        {
+            lock (locker)
+            {
+                for(int i = 0; i < 10; i++)
+                {
+                    warehouse -= 1;
+                    Console.WriteLine(warehouse);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
             /*foreach (Process process in Process.GetProcesses())
@@ -152,11 +168,20 @@ namespace oop_15
             /// 
 
             Timer timer = new Timer((o) => Console.WriteLine(DateTime.Now), null, 0, 1000);
-            Thread.Sleep(10000);
+            Thread.Sleep(5000);
             timer.Dispose();
             Console.WriteLine();
 
             /// 
+
+
+            Thread worker1 = new Thread(loader);
+            Thread worker2 = new Thread(loader);
+            Thread worker3 = new Thread(loader);
+
+            worker1.Start();
+            worker2.Start();
+            worker3.Start();
 
             Console.ReadKey();
         }
