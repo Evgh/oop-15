@@ -43,12 +43,23 @@ namespace oop_15
             Console.WriteLine($"Application Base: {domain.SetupInformation.ApplicationBase}");
             Console.WriteLine($"Configuration File: {domain.SetupInformation.ConfigurationFile}");
             foreach (Assembly assembly in domain.GetAssemblies())
-                Console.WriteLine(assembly.GetName().Name);
+                Console.WriteLine(assembly.GetName());
             Console.WriteLine();
 
             ///
 
+            AppDomain newDomain = AppDomain.CreateDomain("Kasperovich");
+            newDomain.AssemblyLoad += (sender, e) => Console.WriteLine($"Сборка {e.LoadedAssembly.GetName().Name} загружена");
+            newDomain.Load("System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089");
+            
+            foreach (Assembly assembly in newDomain.GetAssemblies())
+                Console.WriteLine(assembly.GetName().Name);
 
+            newDomain.DomainUnload += (sender, e) => Console.WriteLine($"Домен {((AppDomain)sender).FriendlyName} выгружен");
+            AppDomain.Unload(newDomain);
+            Console.WriteLine();
+
+            /// 
 
             Console.ReadKey();
         }
