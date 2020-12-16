@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Reflection;
+using System.Threading;
 
 namespace oop_15
 {
@@ -60,6 +61,25 @@ namespace oop_15
             Console.WriteLine();
 
             /// 
+
+            Thread thread = new Thread(() => { for (int i = 1; i <= 10; i++) { Console.WriteLine(i); } }  );
+            Console.WriteLine($"ID: {thread.ManagedThreadId}");
+            Console.WriteLine($"Name: {thread.Name}");
+            Console.WriteLine($"Proirity: {thread.Priority}");
+            Console.WriteLine($"State: {thread.ThreadState}");
+            thread.Start();
+            thread.Suspend();
+            Console.WriteLine($"State: {thread.ThreadState}");
+            thread.Resume();
+            Console.WriteLine($"State: {thread.ThreadState}");
+            Thread.Sleep(100);
+            Console.WriteLine($"State: {thread.ThreadState}");
+            Console.WriteLine();
+
+            /// 
+
+            
+
 
             Console.ReadKey();
         }
